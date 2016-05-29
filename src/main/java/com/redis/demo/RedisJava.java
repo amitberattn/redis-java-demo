@@ -3,7 +3,9 @@ package com.redis.demo;
 import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RedisJava {
     public static void main(String[] args) {
@@ -35,12 +37,23 @@ public class RedisJava {
         nameList.add("Tim");
         nameList.add("Smith");
         nameList.add("Smith");
-        RedisUtility.saveSet("name",nameList);
+        RedisUtility.saveSet("name", nameList);
 
 
         /*Save sorted set in redis*/
 
-        RedisUtility.saveSortedSet("name-sort",nameList);
+        RedisUtility.saveSortedSet("name-sort", nameList);
+
+
+        /*Save hashes in redis*/
+
+        Map<String,String> userDetailMap = new HashMap<String, String>();
+        userDetailMap.put("name","Farnando");
+        userDetailMap.put("id","ID001");
+        userDetailMap.put("city","Melborne");
+        userDetailMap.put("profession","Business");
+        RedisUtility.saveHash("user", userDetailMap);
+        RedisUtility.getHash("user","name","id");
 
         /*Get all key's stroed in redis*/
 

@@ -1,7 +1,9 @@
 package com.redis.demo;
 
 import redis.clients.jedis.Jedis;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RedisUtility {
@@ -12,7 +14,6 @@ public class RedisUtility {
     public static Jedis getConnection() {
         Jedis jedis = new Jedis(REDIS_SERVER_URL, REDIS_PORT);
         //jedis.auth("");
-       // System.out.println("Connection to server sucessfully");
         return jedis;
     }
 
@@ -21,6 +22,7 @@ public class RedisUtility {
         jedis.set(key, value);
         String savedString = jedis.get(key);
         System.out.println("Saved string : " + savedString);
+        jedis.close();
         return savedString;
     }
 
@@ -35,6 +37,7 @@ public class RedisUtility {
         for (String e : savedList) {
             System.out.print(e + ", ");
         }
+        jedis.close();
         return savedList;
     }
 
@@ -51,6 +54,7 @@ public class RedisUtility {
         for (String s : savedSet) {
             System.out.print(s + ",");
         }
+        jedis.close();
         return savedSet;
     }
 
@@ -66,10 +70,29 @@ public class RedisUtility {
         for (String s : savedSet) {
             System.out.print(s + ",");
         }
+        jedis.close();
         return savedSet;
     }
 
-    public static Set<String> getAllKey(){
+    public static void saveHash(String key, Map<String, String> value) {
+        Jedis jedis = getConnection();
+        jedis.hmset(key, value);
+        jedis.close();
+    }
+
+    public static void getHash(String key, String... feilds) {
+        Jedis jedis = getConnection();
+        List<String> values = jedis.hmget(key, feilds);
+        System.out.println();
+        System.out.print("Saved hashes : ");
+        for (String s : values) {
+            System.out.print(s + ",");
+        }
+        jedis.close();
+    }
+
+
+    public static Set<String> getAllKey() {
         Jedis jedis = getConnection();
         Set<String> keySet = jedis.keys("*");
         System.out.println();
@@ -77,10 +100,11 @@ public class RedisUtility {
         for (String s : keySet) {
             System.out.print(s + ",");
         }
+        jedis.close();
         return keySet;
     }
 
-    public static List<String> getSortedList(String key){
+    public static List<String> getSortedList(String key) {
         Jedis jedis = getConnection();
         List<String> sortedList = jedis.sort(key);
 
@@ -89,7 +113,9 @@ public class RedisUtility {
         for (String s : sortedList) {
             System.out.print(s + ",");
         }
+        jedis.close();
         return sortedList;
+
     }
 
 }
