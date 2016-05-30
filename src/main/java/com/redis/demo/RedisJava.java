@@ -57,6 +57,6 @@ public class RedisJava {
 
         /*Get all key's stroed in redis*/
 
-      /*  RedisUtility.getAllKey();*/
+        RedisUtility.getAllKey();
     }
 }

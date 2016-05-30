@@ -103,19 +103,6 @@ public class RedisUtility {
         jedis.close();
         return keySet;
     }
-
-    public static List<String> getSortedList(String key) {
-        Jedis jedis = getConnection();
-        List<String> sortedList = jedis.sort(key);
-
-        System.out.println();
-        System.out.print("Saved set : ");
-        for (String s : sortedList) {
-            System.out.print(s + ",");
-        }
-        jedis.close();
-        return sortedList;
-
-    }
+    
 
 }
